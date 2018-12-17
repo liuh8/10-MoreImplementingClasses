@@ -131,6 +131,7 @@ class Point(object):
         """  Returns a new Point at the same (x, y) as this Point. """
         return Point(self.x, self.y)
 
+
     def distance_from(self, p2):
         """ Returns the distance this Point is from the given Point. """
         dx_squared = (self.x - p2.x) ** 2
@@ -227,6 +228,9 @@ class Line(object):
         # ---------------------------------------------------------------------
         self.start = start.clone()
         self.end = end.clone()
+        self.count = 0
+        self.a = self.start.clone()
+        self.b = self.end.clone()
 
 
     def __repr__(self):
@@ -300,6 +304,7 @@ class Line(object):
         return (self.start == line2.start) and (self.end == line2.end)
 
     def clone(self):
+        self.count = self.count + 1
         """
         What comes in:
           -- self
@@ -441,7 +446,7 @@ class Line(object):
           :rtype: float
         """
         # ---------------------------------------------------------------------
-        # TODO: 7.
+        # D: 7.
         #   a. READ the above specification, including the Example.
         #        ** ASK QUESTIONS AS NEEDED. **
         #        ** Be sure you understand it, ESPECIALLY the Example.
@@ -449,11 +454,7 @@ class Line(object):
         #        The tests are already written (below).
         #        They include the Example in the above doc-string.
         # ---------------------------------------------------------------------
-        a = self.start.x
-        b = self.start.y
-        c = self.end.x
-        d = self.end.y
-        return math.sqrt((c - a) ** 2 + (d - b) ** 2)
+        return math.sqrt((self.end.x - self.start.x) ** 2 + (self.end.y - self.start.y) ** 2)
 
     def get_number_of_clones(self):
         """
@@ -486,7 +487,7 @@ class Line(object):
           :rtype: int:
         """
         # ---------------------------------------------------------------------
-        # TODO: 8.
+        # D: 8.
         #   a. READ the above specification, including the Example.
         #        ** ASK QUESTIONS AS NEEDED. **
         #        ** Be sure you understand it, ESPECIALLY the Example.
@@ -494,6 +495,7 @@ class Line(object):
         #        The tests are already written (below).
         #        They include the Example in the above doc-string.
         # ---------------------------------------------------------------------
+        return self.count
 
     def line_plus(self, other_line):
         """
@@ -519,8 +521,12 @@ class Line(object):
           :type  other_line: Line
           :rtype: Line:
         """
+        new_start = Point(self.start.x + other_line.start.x, self.start.y + other_line.start.y)
+        new_end = Point(self.end.x + other_line.end.x, self.end.y + other_line.end.y)
+        return Line(new_start, new_end)
+
         # ---------------------------------------------------------------------
-        # TODO: 9.
+        # D: 9.
         #   a. READ the above specification, including the Example.
         #        ** ASK QUESTIONS AS NEEDED. **
         #        ** Be sure you understand it, ESPECIALLY the Example.
@@ -553,8 +559,10 @@ class Line(object):
           :type  other_line: Line
           :rtype: Line:
         """
+        return Line(self.start.minus(other_line.start),self.end.minus(other_line.end))
+
         # ---------------------------------------------------------------------
-        # TODO: 10.
+        # D: 10.
         #   a. READ the above specification, including the Example.
         #        ** ASK QUESTIONS AS NEEDED. **
         #        ** Be sure you understand it, ESPECIALLY the Example.
@@ -581,7 +589,7 @@ class Line(object):
           :rtype: Point
         """
         # ---------------------------------------------------------------------
-        # TODO: 11.
+        # D: 11.
         #   a. READ the above specification, including the Example.
         #        ** ASK QUESTIONS AS NEEDED. **
         #        ** Be sure you understand it, ESPECIALLY the Example.
@@ -589,6 +597,8 @@ class Line(object):
         #        The tests are already written (below).
         #        They include the Example in the above doc-string.
         # ---------------------------------------------------------------------
+        mid_point = Point(((self.start.x + self.end.x) / 2), (self.start.y + self.end.y) / 2)
+        return mid_point
 
     def is_parallel(self, line2):
         """
@@ -617,8 +627,12 @@ class Line(object):
           :type  line2: Line
           :rtype: bool
         """
+        if round(self.slope(), 12) == round(line2.slope(),12):
+            return True
+        else:
+            return False
         # ---------------------------------------------------------------------
-        # TODO: 12.
+        # D: 12.
         #   a. READ the above specification, including the Example.
         #        ** ASK QUESTIONS AS NEEDED. **
         #        ** Be sure you understand it, ESPECIALLY the Example.
@@ -692,6 +706,8 @@ class Line(object):
         #        The tests are already written (below).
         #        They include the Example in the above doc-string.
         # ---------------------------------------------------------------------
+        self.start = self.a
+        self.end = self.b
 
 
 ###############################################################################
